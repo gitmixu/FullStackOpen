@@ -29,7 +29,7 @@ export default App
 
 
 const Header = (props) => {
-  console.log(props);
+  console.log(props)
   return (
     <div>
       <p>{props.course}</p>
@@ -41,22 +41,22 @@ const Content = (props) => {
   console.log(props);
   return (
     <div>
-      {props.names.forEach(element => {
-        console.log(element.name);
-        <p>{element.name}</p>
-      })}
+      <p>{props.names[0].name}</p>
+      <p>{props.names[1].name}</p>
+      <p>{props.names[2].name}</p>
     </div>
   )
 }
 
 const Total = (props) => {
+  let totalNum = 0;
   console.log(props);
   return (
     <div>
         {props.exercises.forEach(element => {
-          console.log(element.exercises);
-          <p>{element.exercises}</p>
+          totalNum += element.exercises;
       })}
+    <p>{totalNum}</p>
     </div>
   )
 }
