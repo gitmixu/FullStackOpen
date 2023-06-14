@@ -4,14 +4,10 @@ import './app.css';
 const StatisticLine = (props) => {
   console.log('StatisticLine', props);
   return(
-    <div>
-    <table>
-        <tr>
-            <td id='text'>{props.text}</td>
-            <td>{props.value}</td>
-        </tr>
-    </table>
-    </div>
+    <tr>
+      <td id='text'>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   )
 }
 
@@ -21,12 +17,16 @@ const Statistics = ({good, neutral, bad}) => {
   if (all < 1) {return (<div><p>No feedback given</p></div>)}
   return(
     <div>
-      <StatisticLine text="good" value ={good} />
-      <StatisticLine text="neutral" value ={neutral} />
-      <StatisticLine text="bad" value ={bad} />
-      <StatisticLine text="all" value ={all} />
-      <StatisticLine text="average" value ={(good + 0 - bad) / all} />
-      <StatisticLine text="positive" value ={((good / all * 100).toFixed(1)) + " %"}/>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value ={good} />
+          <StatisticLine text="neutral" value ={neutral} />
+          <StatisticLine text="bad" value ={bad} />
+          <StatisticLine text="all" value ={all} />
+          <StatisticLine text="average" value ={((good + 0 - bad) / all).toFixed(1)} />
+          <StatisticLine text="positive" value ={((good / all * 100).toFixed(1)) + " %"}/>
+        </tbody>
+      </table>
     </div>
   )
 }
