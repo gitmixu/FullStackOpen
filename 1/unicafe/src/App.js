@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import './app.css';
 
 const StatisticLine = (props) => {
   console.log('StatisticLine', props);
   return(
     <div>
-      <p>{props.text}  {props.value}</p>
+    <table>
+        <tr>
+            <td id='text'>{props.text}</td>
+            <td>{props.value}</td>
+        </tr>
+    </table>
     </div>
   )
 }
@@ -20,7 +26,7 @@ const Statistics = ({good, neutral, bad}) => {
       <StatisticLine text="bad" value ={bad} />
       <StatisticLine text="all" value ={all} />
       <StatisticLine text="average" value ={(good + 0 - bad) / all} />
-      <StatisticLine text="positive" value ={(good / all * 100) + " %"}/>
+      <StatisticLine text="positive" value ={((good / all * 100).toFixed(1)) + " %"}/>
     </div>
   )
 }
