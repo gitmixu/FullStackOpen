@@ -1,4 +1,27 @@
 import { useState } from 'react'
+import './App.css';
+
+const ary = new Uint8Array(8);
+const copy = [...ary]
+
+const MostVotes = (props) => {
+  const numbers = props.list
+  const anecdotes = props.anecdotes
+  const max_index = numbers.indexOf(Math.max(...numbers));
+  if (copy[max_index] === 0){
+    return (
+      <>
+      <p>no votes yet</p>
+      </>
+    )
+  }
+  return (
+    <>
+    {anecdotes[max_index]}
+    <p>has {numbers[max_index]} votes</p>
+    </>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -11,16 +34,36 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+
   const [selected, setSelected] = useState(0)
+  const [ counter, setCounter ] = useState(0)
+
+  const handleClick = () => {
+    console.log('');
+    console.log('VOTING');
+    copy[selected] += 1;
+    setCounter(copy[selected]);
+    }
+
+  const nextAnecdote = () => {
+    console.log('');
+    console.log('NEXT ANECDOTE');
+    setSelected(Math.floor(Math.random() * ((anecdotes.length - 1) - 0 + 1)) + 0);
+    setCounter(copy[selected]);
+  }
 
   return (
-    <div>
-      {anecdotes[selected]}
-      <br></br>
-      <button onClick={() => setSelected(Math.floor(Math.random() * ((anecdotes.length - 1) - 0 + 1)) + 0)}>next anecdote</button>
-    </div>
-  )
-}
+      <div>
+        <h1>Anecdote of the day</h1>
+        {console.log(copy)}
+        <p>{anecdotes[selected]}{console.log('selected anecdote',selected)}</p>
+        <div>has {copy[selected]} votes {console.log('votes',copy[selected])}</div>
+        <button onClick={handleClick}>vote</button>
+        <button onClick={nextAnecdote}>next anecdote</button>
+        <h1>Anecdote with most votes</h1>
+        <MostVotes list={copy} anecdotes={anecdotes}/>
+      </div>
+    )
+  }
 
 export default App
