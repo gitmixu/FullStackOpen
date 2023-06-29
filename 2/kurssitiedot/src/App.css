@@ -4,6 +4,6 @@
   box-sizing: border-box;
 }
 
-#example {
-  display: none;
-}
+#example { display: block;}
+
+#root { display: none;}

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-/*import Example from './Example' // for example*/
+import Example from './Example' // for example
 import App from './App' // TEHTÄVÄ
 
 const courses = [
@@ -51,7 +51,6 @@ const courses = [
 ReactDOM.createRoot(document.getElementById('root')).render(
   <App courses={courses} />
 )
-/*
 const notes = [
   {
     id: 1,
@@ -70,11 +69,9 @@ const notes = [
   }
 ]
 
-
 const result = notes.map(note => note.id);
 console.log(result);
 
-
 ReactDOM.createRoot(document.getElementById('example')).render(
   <Example notes={notes} />
-)*/
+)
