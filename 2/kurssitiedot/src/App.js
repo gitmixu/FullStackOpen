@@ -45,12 +45,15 @@ const Course = ({ course }) => {
   )
 }
 
-const App = ({course}) => {
-  console.log('\nApp works...')
+const App = ({courses}) => {
+  console.log('\nApp works...');
+  console.log(courses);
 
   return (
     <div>
-      <Course course={course} />
+      {courses.map(course => 
+      <Course key={course.id} course={course} />
+      )}
     </div>
   )
 }
