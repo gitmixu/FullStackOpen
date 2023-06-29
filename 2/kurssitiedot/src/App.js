@@ -16,6 +16,21 @@ const Content = ({ part }) => {
   )
 }
 
+const Total = ({ parts }) => { 
+  console.log('\nTotal works')
+  console.log(parts)
+  let exs = []
+  parts.map(part => exs.push(part.exercises))
+  const sum = exs.reduce((acc, currVal) => {
+    return acc + currVal
+  },0)
+  return (
+    <>
+    <h3>total of {sum} exercises</h3>
+    </>
+  )
+}
+
 const Course = ({ course }) => {
   console.log('\nCourse works')
   console.log(course)
@@ -24,9 +39,10 @@ const Course = ({ course }) => {
       <Header name={course.name} />
     <ul>
       {course.parts.map(part => 
-        <Content key={part.id} part={part} />
+      <Content key={part.id} part={part} />
       )}
     </ul>
+      <Total parts={course.parts} />
     </div>
   )
 }
