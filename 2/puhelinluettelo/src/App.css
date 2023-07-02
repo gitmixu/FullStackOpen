@@ -5,7 +5,11 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#filter {margin: 20px 0;}
+
 #root {margin: 10px;}
+
+input {padding: 2px;}
 
 button {padding: 0 10px;}
 
