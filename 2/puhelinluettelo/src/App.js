@@ -1,50 +1,55 @@
-import { useState } from 'react';
-import './App.css';
+import { useState, useEffect } from 'react'
+import numberService from './services/numbers'
 
 const Numbers = ({ person, filter }) => {
-  if (filter === ''){
-      console.log('Numbers > filter = empty'); 
-    return ( <li>{'> '}{person.name} {person.number}</li> );}
-  else if ((person.name).toLowerCase().includes(filter.toLowerCase())){
+  if ((person.name).toLowerCase().includes(filter.toLowerCase())){
       console.log('Numbers > filter =', filter);
       console.log('\nApp > Numbers > person',person);
-    return ( <li>{'> '}{person.name} {person.number}</li> );
+    return ( <li>{' '}{person.name} {person.number}</li> );
   }
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
-
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
 
-  console.log('\nApp > persons', persons);
+  useEffect(() => {
+    numberService
+      .getAll()
+      .then(initialNumbers => {
+        setPersons(initialNumbers)
+      })
+  }, [])
 
-  const addName = (event) => { event.preventDefault();
-    console.log('\nApp > addName');
-
+  const addName = (event) => {
+    event.preventDefault()
+    
     if(persons.find(person => person.name === newName)){
       alert(`${newName} is already added to phonebook`);
       return
     }
 
-    const personObject = { name: newName, number: newNumber }
-    setPersons(persons.concat(personObject));
+    const personObject = {
+      name: newName,
+      number: newNumber
+    }
 
-    setNewName('');
-    setNewNumber('');
+    numberService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handlePersonChange = (event) => { event.preventDefault(); setNewName(event.target.value); }
   const handleNumberChange = (event) => { event.preventDefault(); setNewNumber(event.target.value); }
   const handleFilterChange = (event) => { event.preventDefault(); setNewFilter(event.target.value); }
 
+  console.log('\nApp > persons', persons);
   return (
     <div id='content'>
       <h2>Phonebook</h2>
