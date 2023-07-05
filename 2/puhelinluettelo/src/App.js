@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import numberService from './services/numbers'
 import './App.css'
+import Notification from './services/Notification'
 
 const Numbers = ({ person, filter }) => {
-  if ((person.name).toLowerCase().includes(filter.toLowerCase())){
       console.log('Numbers > filter =', filter);
+  if ((person.name).toLowerCase().includes(filter.toLowerCase())){
       console.log('\nApp > Numbers > person',person);
     return ( 
     <li>{'> '}{person.name} {person.number} <button onClick={() => {
@@ -21,6 +22,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter, setNewFilter] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     numberService
@@ -30,15 +32,21 @@ const App = () => {
       })
   }, [])
 
-  const addName = (event) => {
+  const addName = (event) => 
+  {
     event.preventDefault()
     
-    if(persons.find(person => person.name === newName)){
-      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
-      const findPerson = persons.find(person => person.name === newName);
-      const personObject = { name: newName, number: newNumber }
-      numberService.update(findPerson.id, personObject);
-      }
+    if(persons.find(person => person.name === newName))
+    {
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+        {
+          const findPerson = persons.find(person => person.name === newName);
+          const personObject = { name: newName, number: newNumber }
+          numberService.update(findPerson.id, personObject)
+            .then(
+              setErrorMessage(`${personObject.name} number updated successfully`),
+              setTimeout(() => {setErrorMessage(null)}, 5000))
+        }
       setNewName('')
       setNewNumber('')
       window.location.reload();
@@ -49,11 +57,14 @@ const App = () => {
 
     numberService
       .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
-      })
+      .then(returnedPerson => 
+        {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        },
+      setErrorMessage(`${personObject.name} added`),
+      setTimeout(() => {setErrorMessage(null)}, 5000))
   }
 
   const handlePersonChange = (event) => { event.preventDefault(); setNewName(event.target.value); }
@@ -72,6 +83,8 @@ const App = () => {
         <div>number: <input value={newNumber} onChange={handleNumberChange}/></div>
         <div><button type="submit" >add</button></div>
       </form>
+
+      <Notification message={errorMessage} />
 
       <h2>Numbers</h2>
       <ul> 
